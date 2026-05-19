@@ -1029,8 +1029,12 @@ public:
 							bool useAdditionalExhaustPos = false;
 							RwMatrix* vehicleMatrix = (RwMatrix*)vehicle->m_matrix;
 
-							if (vehicle->m_nModelIndex == eModelID::MODEL_NRG500 && (vehicleExtra0 == 0 || vehicleExtra0 == 1)) {
-								exhaustPosAdditional = GetVehicleDummyPosAdapted(vehicle, 11)->ToRwV3d();
+							const int extra0 = static_cast<int>(vehicle->m_anExtras[0]);
+							if (vehicle->m_nModelIndex == eModelID::MODEL_NRG500 && (extra0 == 0 || extra0 == 1)) {
+								const CVector* extraPos = GetVehicleDummyPosAdapted(vehicle, 11);
+								exhaustPosAdditional.x = extraPos->x;
+								exhaustPosAdditional.y = extraPos->y;
+								exhaustPosAdditional.z = extraPos->z;
 								useAdditionalExhaustPos = true;
 							}
 
@@ -1173,7 +1177,7 @@ public:
 			// Process material stuff (before render)
 			if (xdata.taxiSignMaterial)
 			{
-				if (reinterpret_cast<CAutomobile*>(vehicle)->taxiAvaliable & 1)
+				if (reinterpret_cast<CAutomobile*>(vehicle)->m_nAutomobileFlags.bTaxiLight)
 				{
 					resetMats.push_back(std::make_pair(reinterpret_cast<unsigned int *>(&xdata.taxiSignMaterial->surfaceProps.ambient), *reinterpret_cast<unsigned int *>(&xdata.taxiSignMaterial->surfaceProps.ambient)));
 					xdata.taxiSignMaterial->surfaceProps.ambient = 10.0f;

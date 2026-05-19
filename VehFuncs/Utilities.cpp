@@ -17,8 +17,10 @@ float GetVehicleSpeedRealistic(CVehicle * vehicle)
 	if (vehicle->m_nVehicleSubClass == VEHICLE_BIKE || vehicle->m_nVehicleSubClass == VEHICLE_BMX)
 	{
 		CBike * bike = (CBike *)vehicle;
-		wheelSpeed = ((bike->m_fWheelSpeed[0] * vehicleModelInfo->m_fWheelSizeFront) +
-			(bike->m_fWheelSpeed[1] * vehicleModelInfo->m_fWheelSizeRear)) / 2.0f;
+		const float frontAngular = bike->m_aWheelAngularVelocity[0];
+		const float rearAngular = bike->m_aWheelAngularVelocity[1];
+		wheelSpeed = ((frontAngular * vehicleModelInfo->m_fWheelSizeFront) +
+			(rearAngular * vehicleModelInfo->m_fWheelSizeRear)) / 2.0f;
 	}
 	else if (vehicle->m_nVehicleSubClass == VEHICLE_AUTOMOBILE || vehicle->m_nVehicleSubClass == VEHICLE_MTRUCK || vehicle->m_nVehicleSubClass == VEHICLE_QUAD)
 	{
